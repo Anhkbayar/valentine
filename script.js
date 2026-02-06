@@ -1,13 +1,29 @@
-emailjs.init("dRXv8xKAJQ080_Wjh");
+emailjs.init({
+  publicKey: "dRXv8xKAJQ080_Wjh",
+  // Do not allow headless browsers
+  blockHeadless: true,
+  blockList: {
+    // Block the suspended emails
+    list: ['foo@emailjs.com', 'bar@emailjs.com'],
+    // The variable contains the email address
+    watchVariable: 'userEmail',
+  },
+  limitRate: {
+    // Set the limit rate for the application
+    id: 'app',
+    // Allow 1 request per 10s
+    throttle: 10000,
+  },
+});
 
 function saidYes() {
-    window.location.href = "yes.html"
     emailjs.send("service_0oc0xiy", "template_4q6gl3m", {
         message: "I thinks someone said yes nigga",
         title: "Valentine notice",
         email: "zanhaa56@gmail.com",
         name: "Someone",
-    }).then(() => {
+    }).then((response) => {
+        console.log(response.status, response.text);
         window.location.href = "yes.html";
     }).catch(err => {
         console.error("Email failed:", err);
